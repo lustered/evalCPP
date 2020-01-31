@@ -15,3 +15,4 @@
 
     output = vpin 6
 
+![reference logic gates table](https://github.com/lustered/logic_gates_blynk/blob/master/gates.jpeg)
