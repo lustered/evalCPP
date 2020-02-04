@@ -1,18 +1,21 @@
 #include <iostream>
 using namespace std;
 int logic_gate(int,int,int);
+int interpreter(int[]);
 /* checklist: */
     /* and */
     /* or */
 int main(int argc, char** argv){
 
     /* int gate = (int)argv[0]; */
-    int gate = atoi(argv[1]);
-    int a = atoi(argv[2]);
-    int b = atoi(argv[3]);
-    int output = logic_gate(gate,a,b);
+    /* int gate = atoi(argv[1]); */
+    /* int a = atoi(argv[2]); */
+    /* int b = atoi(argv[3]); */
+    /* int output = logic_gate(gate,a,b); */
 
-    cout << output << endl;
+    /* cout << output << endl; */
+    string statemet = argv[1];
+    //cout << statement << endl;
 
     return 0; 
 }
@@ -57,4 +60,36 @@ int logic_gate(int gate,int a,int b){
     return ret;
                 /* end of switch */
 }
+
+
+// planning:
+// each buffer will have 3 parts
+// [first statement] [logic gate] [second statement]
+// statements can have gates within themselves:
+// ex: [not p and q] [and] [p or q]
+// statements can also have signs before them
+// ex: not[not p and not q] [and] not[p or not q]
+//
+
+int interpreter(int statement[]){
+   int state_count[10];  
+   int size_of_state = *statement.size();
+   for(int i = 0;i < size_of_state;i++){
+       if(statement[i] == '('){
+       state_count[i] = statement[i-1]; 
+       }
+       else if(statement[i] == ')'){
+        state_count[i] = statement[i-1];
+
+        }
+    } 
+   return state_count;
+}
+
+
+
+
+
+
+
 

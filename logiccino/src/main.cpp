@@ -21,9 +21,36 @@ int gate_selected;
 int A_val;
 int B_val;
 
+//* BLYNK_WRITE(V5){ */
+/*      // if you type "Marco" into Terminal Widget - it will respond: "Polo:" */
+/*   if (String("Marco") == param.asStr()) { */
+/*     terminal.println("You said: 'Marco'") ; */
+/*     terminal.println("I said: 'Polo'") ; */
+/*   } else { */
+
+/*     // Send it back */
+/*     terminal.print("You said:"); */
+/*     terminal.write(param.getBuffer(), param.getLength()); */
+/*     terminal.println(); */
+/*   } */
+
+/*   // Ensure everything is sent */
+/*   terminal.flush(); */
+/* } */
+
 //terminal communication
+// planning: 
+// each buffer will have 3 parts
+// [first statement] [logic gate] [second statement]
+// statements can have gates within themselves:
+// ex: [not p and q] [and] [p or q]
+// statements can also have signs before them
+// ex: not[not p and not q] [and] not[p or not q]
+// 
 BLYNK_WRITE(V5){
-     // if you type "Marco" into Terminal Widget - it will respond: "Polo:"
+    int gates_terminal[]
+    statement = param.asStr();
+       
   if (String("Marco") == param.asStr()) {
     terminal.println("You said: 'Marco'") ;
     terminal.println("I said: 'Polo'") ;
@@ -70,7 +97,8 @@ vector<vector<int>> gates{{ 0,0,0,1},// and
                           { 0,1,1,1},// or
                           { 1,0,1,0},// not
                           { 1,1,1,0},// nand
-                          { 1,0,0,0} };//nor 
+                          { 1,0,0,0},//nor
+                          { 0,1,1,0}};//xor
 
 if(gate_selected > 0){
     int gate_index = gate_selected - 1;
@@ -151,6 +179,14 @@ int logic_gate(int gate,int a,int b){
             if (a == 0 && b == 0){
                 ret = 1;
             }
+            break;
+        case 5:
+            if (a != b){
+                ret = 1;
+            }
+            break;
+        default:
+            cout << "error404" << endl;
 
         }
     return ret;
