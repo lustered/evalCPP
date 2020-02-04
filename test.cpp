@@ -73,7 +73,7 @@ int logic_gate(int gate,int a,int b){
 
 int interpreter(int statement[]){
    int state_count[10];  
-   int size_of_state = *statement.size();
+   int size_of_state = sizeof(*statement);
    for(int i = 0;i < size_of_state;i++){
        if(statement[i] == '('){
        state_count[i] = statement[i-1]; 
@@ -83,7 +83,7 @@ int interpreter(int statement[]){
 
         }
     } 
-   return state_count;
+   return *state_count;
 }
 
 
