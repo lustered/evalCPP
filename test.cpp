@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 int logic_gate(int,int,int);
 int interpreter(int[]);
@@ -14,7 +15,8 @@ int main(int argc, char** argv){
     /* int output = logic_gate(gate,a,b); */
 
     /* cout << output << endl; */
-    string statemet = argv[1];
+    string arg_statement = argv[1];
+    cout << arg_statement << endl; 
     //cout << statement << endl;
 
     return 0; 
@@ -74,6 +76,7 @@ int logic_gate(int gate,int a,int b){
 int interpreter(int statement[]){
    int state_count[10];  
    int size_of_state = sizeof(*statement);
+   cout << size_of_state << endl;
    for(int i = 0;i < size_of_state;i++){
        if(statement[i] == '('){
        state_count[i] = statement[i-1]; 
