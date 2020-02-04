@@ -103,7 +103,7 @@ vector<vector<int>> gates{{ 0,0,0,1},// and
 if(gate_selected > 0){
     int gate_index = gate_selected - 1;
     if(gate_index != 2){
-    Blynk.virtualWrite(V4, "add", 1, "0         0",gates[gate_index][0]);
+    Blynk.virtualWrite(V4, "add", 1, "0         0", gates[gate_index][0]);
     Blynk.virtualWrite(V4, "add", 2, "0         1", gates[gate_index][1]);
     Blynk.virtualWrite(V4, "add", 3, "1         0", gates[gate_index][2]);
     Blynk.virtualWrite(V4, "add", 4, "1         1", gates[gate_index][3]);
