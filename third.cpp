@@ -7,20 +7,21 @@
 using namespace std;
 vector<string> protos(string statement);
 vector<string> split_parenth(vector<string> &vecty);
-
+/* globals */
+vector<int> gates;
 int main(){
     // this will be the logic statement
     string stringy = ("not ( p and q ) and ( q and p )");
-
+    /* dividing logic_statement into separate words */
     vector<string> vecty = protos(stringy);
-    /* cout << vecty.size()<< vecty[1]; */
+    /* getting statement inside the parenthesis */
+    vector<string> vectant = split_parenth(vecty);
 
-    /* vector<string> vectant = split_parenth(vecty); */
-    /* cout << vectant[0] << endl; */
-    /* /1* displayer *1/ */
-    for(int i = 0;i < 10;i++){
-        cout << vecty[i] << endl;
+    /* displayer */
+    for(int i = 0;i < vectant.size();i++){
+        cout << vectant[i] << endl;
     }
+
     return 0;
 }
 
@@ -36,15 +37,20 @@ vector<string> protos(string statement){
 
    return words; 
 }
-
+/* gates order in a vector [planning to support this for now]: */
+/*     gate ( cond gate cond ) gate gate ( cond gate ) */ 
 vector<string> split_parenth(vector<string> &vecty){
     vector<string> ret;
     int not_counts = 0;
-    int from;
-    int until;
-    /* for(int i = 0; i < vecty.size();i++){ */
-    /*     if( */ 
-    /* } */
+     
+    for(int i = 0; i < vecty.size();i++){
+        if(vecty[i] == "("){
+            ret.push_back(vecty[i+1]);
+        }
+        if(vecty[i] == ")"){
+            ret.push_back(vecty[i-1]);
+        }
+    }
 
    return ret; 
 }
