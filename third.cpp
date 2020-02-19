@@ -18,8 +18,9 @@ int main(){
     vector<string> vectant = split_parenth(vecty);
 
     /* displayer */
-    for(int i = 0;i < vectant.size();i++){
-        cout << vectant[i] << endl;
+    for(int i = 0;i < vecty.size();i++){
+        /* cout << vectant[i] << endl; */
+        cout << vecty[i] << endl;
     }
 
     return 0;
