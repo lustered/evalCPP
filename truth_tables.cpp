@@ -4,17 +4,11 @@
 #include <string>
 #include <iterator>
 using namespace std;
-vector<int> truth_table(vector<vector<int>> &default_table);
+
 vector<vector<int>> build_table(int gate,int p,int q);
 int logic_gate(int gate,int a,int b);
 
 int main(){
-    /* p and q */
-    vector<vector<int>> default_table{{1,1,0,0}, //p
-                             {1,0,1,0}}; //q
-
-    /* cout << default_table[1][1] << endl; */
-    vector<int> results = truth_table(default_table);
     /* values to pass */
     int gate = 1;
     int p = 1; 
@@ -37,21 +31,6 @@ int main(){
 
     
     return 0;
-}
-
-vector<int> truth_table(vector<vector<int>> &default_table){
-    vector<int> ret;
-    int temp_a;
-    int temp_b;
-
-    for(int i = 0;i < 4;i++){
-        temp_a = default_table[0][i];
-        temp_b = default_table[1][i];
-        ret.push_back(logic_gate(1,temp_a,temp_b));
-        /* cout << ret[i]; */
-
-    }
-    return ret;
 }
 
 int logic_gate(int gate,int a,int b){
@@ -82,8 +61,6 @@ vector<vector<int>> build_table(int gate,int p,int q){
 
     vector<vector<int>> ret = default_table;
     
-/* TODO: */
-/*     finish this */ 
     for(int x=0; x < 4;x++){
         if(p == 1 && q == 1)
             ;
