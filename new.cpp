@@ -30,13 +30,13 @@ vector<string> protos(string statement){
    return words; 
 }
 
-vector<string> parser(vector<string> &vecty){
-    vector<int> ret;
-    for(int i = 0;i < vecty.size();i++){
-        if(vecty[i] == "p"){
+/* vector<string> parser(vector<string> &vecty){ */
+/*     vector<int> ret; */
+/*     for(int i = 0;i < vecty.size();i++){ */
+/*         if(vecty[i] == "p"){ */
 
-        }
-    }
+/*         } */
+/*     } */
 
-    return ret;
-}
+/*     return ret; */
+/* } */

@@ -58,13 +58,9 @@ vector<vector<int>> build_table(int gate,int p,int q){
     vector<vector<int>> default_table{{1,1,0,0},//p
                                       {1,0,1,0},//q
                                       {0,0,0,0}};// comparison with gate 
-
     vector<vector<int>> ret = default_table;
     
     for(int x=0; x < 4;x++){
-        if(p == 1 && q == 1)
-            ;
-
         if(p == 0)
             ret[0][x] = 1 - ret[0][x]; 
         
