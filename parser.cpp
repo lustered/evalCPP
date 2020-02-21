@@ -71,6 +71,9 @@ vector<int> parser(vector<string> &conds){
                 ret.at(ret.size() - 1) = 1 - ret.back();
             }
         }
+        if(conds[i] == ")"){
+            not_before_paren = false;
+        }
     }  
     return ret;
 }
