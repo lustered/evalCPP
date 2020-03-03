@@ -11,27 +11,30 @@ int logic_gate(int gate,int a,int b);
 int main(){
     /* values to pass */
     int gate = 1;
-    int p = 1; 
+    int p = 0; 
     int q = 0;
     vector<vector<int>> truth_tab = build_table(gate,p,q); // gate, P, Q || 0 for not, 1 for T eg. not p = 0
-    int counter = 0;
-    cout << gate << p << q << endl;
-    for(int x = 0;x < 3; x++){
-        /* cout << results[x] << endl; */
-        for(int y = 0; y < 4; y++){
-        cout << truth_tab[x][y] << endl;;
-        counter++; 
-        if(counter == 4){
-            cout << "**************" << endl;
-            counter = 0;
+
+    cout << "gate value: " << gate
+         << "\tP value: " << p 
+         << "\tQ value: " << q << endl << endl;
+
+    cout << "P \tQ \tP0Q" << endl;
+
+    for(int y = 0; y < 4; y++){
+    cout << truth_tab[0][y] << "\t" <<
+            truth_tab[1][y] << "\t" <<
+            truth_tab[2][y] << endl;
+
         }
-    }
-    }
+
+    return 0;
+}
+    
 
 
     
-    return 0;
-}
+
 
 int logic_gate(int gate,int a,int b){
     int ret = 0;
