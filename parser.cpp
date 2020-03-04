@@ -1,3 +1,5 @@
+/* TODO: */
+/*     fix edge cases with not() */
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -113,8 +115,6 @@ vector<int> parser(vector<string> &conds){
         if(conds[i] == "p" || conds[i] == "q"){
             ret.push_back(1);
             cout << "found : " << conds[i] << endl;
-            /* TODO:
-               implement gates and nested conditions */
 
             /* note: */ 
             /*     since "not(not p)" returns 1 and 1 is the default */ 
