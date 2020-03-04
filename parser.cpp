@@ -6,7 +6,11 @@
 #include <vector>
 using namespace std;
 vector<string> protos(string statement);
+int logic_gate(int gate,int a,int b);
 vector<int> parser(vector<string> &conds);
+vector<vector<int>> build_table(int gate,int p,int q);
+void table_displayer(vector<vector<int>> &truth_table);
+void handle_stack(vector<vector<int>> &values, int &gate);
 
 int main(int argc, char** argv){
     // this will be the logic statement
@@ -17,9 +21,6 @@ int main(int argc, char** argv){
     vector<string> conds = protos(from_arg);
     vector<int> test = parser(conds);
 
-    for(int i = 0; i < test.size();i++){
-        cout << test[i] << endl;
-    }
 
     return 0;
 }
@@ -36,10 +37,70 @@ vector<string> protos(string statement){
    return words; 
 }
 
+/* logic gate */
+int logic_gate(int gate,int a,int b){
+    int ret = 0;
+    switch(gate){
+        /* and */
+        case 1:
+            if (a == b){
+                ret = a;
+            }
+            break;
+        /* or */
+        case 2:
+            if (a == 1 || b == 1){
+                ret = 1;
+            }
+            break;
+    }
+
+    return ret;
+}
+
+/* this will build p, q and the output through gate */
+vector<vector<int>> build_table(int gate,int p,int q){
+    /* default truth table hard coded */
+    vector<vector<int>> default_table{{1,1,0,0},//p
+                                      {1,0,1,0},//q
+                                      {0,0,0,0}};// comparison with gate
+    vector<vector<int>> ret = default_table;
+
+    for(int x=0; x < 4;x++){
+        if(p == 0)
+            ret[0][x] = 1 - ret[0][x];
+
+        if(q == 0)
+            ret[1][x] = 1 - ret[1][x];
+
+        /* adding the result of the current index P and Q to the gated val table */
+        ret[2][x] = logic_gate(gate,ret[0][x],ret[1][x]);
+
+    }
+
+    return ret;
+}
+
+void table_displayer(vector<vector<int>> &truth_table){
+    cout << "P \tQ \tP0Q" << endl;
+
+
+    for(int i = 0;i < 4;i++){
+    cout << truth_table[0][i] << "\t" <<
+            truth_table[1][i] << "\t" <<
+            truth_table[2][i] << endl;
+
+    }
+}
 vector<int> parser(vector<string> &conds){
     vector<int> ret;
-    /* we dont need a counter since we can just get the size of gates */
+    /* vector<int> gates; */
+    /* int gate; */
+    /* gate between the 2 conds */
+    /* int link_gate; */
     vector<int> gates;
+    vector<vector<int>> values; 
+    vector<vector<int>> truth_table;
     bool not_before_paren = false;
 
     for(int i = 0; i < conds.size();i++){
@@ -74,6 +135,46 @@ vector<int> parser(vector<string> &conds){
         if(conds[i] == ")"){
             not_before_paren = false;
         }
+        /* latest modification */
+        /* gate implementation */
+
+        /* add table to stack */
+        if(conds[i] == "and"){gates.push_back(1);}
+        if(conds[i] == "or"){gates.push_back(2);}
+        /* need to clean this up to be more dynamic^^ */ 
+
+        if(gates.size() > 0 && ret.size() == 2){
+            /* first we build the standard table with */ 
+            /*     p q and the output */
+          truth_table = build_table(gates.back(),ret[0],ret[1]);  
+          ret.clear();
+
+          table_displayer(truth_table);
+          values.push_back(truth_table[2]);
+          truth_table.clear();
+
+        
+        }
+
     }  
+    if(values.size() == 2){
+            cout << "gate: " << gates[gates.size() - 2]<< endl;
+            handle_stack(values, gates[gates.size() - 2]);
+        }
+
     return ret;
 }
+
+/* rebuild the truth table to handle multiple conditional statements */
+void handle_stack(vector<vector<int>> &values, int &gate){
+    vector<vector<int>> ret;
+    cout << "final " << endl;
+
+    for(int x = 0; x < 4;x++){
+       cout << logic_gate(gate,values[0][x],values[1][x]) << endl;;
+    }
+    /* for(auto i = ret.begin(); i != ret.end();++i){ */
+    /*     cout << *i << endl; */
+    /* } */ 
+}
+
