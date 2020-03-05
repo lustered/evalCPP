@@ -15,8 +15,8 @@ int logic_gate(int gate,int a,int b);
 
 int main(){
     /* values to pass */
-    int gate = 2;
-    int p = 1; 
+    int gate = 1;
+    int p = 0; 
     int q = 1;
     vector<vector<int>> truth_tab = build_table(gate,p,q); // gate, P, Q || 0 for not, 1 for T eg. not p = 0
 

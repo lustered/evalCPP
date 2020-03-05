@@ -1,5 +1,3 @@
-/* TODO: */
-/*     fix edge cases with not() */
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -8,9 +6,9 @@
 #include <vector>
 using namespace std;
 vector<string> protos(string statement);
-int logic_gate(int gate,int a,int b);
 vector<int> parser(vector<string> &conds);
 vector<vector<int>> build_table(int gate,int p,int q);
+int logic_gate(int gate,int a,int b);
 void table_displayer(vector<vector<int>> &truth_table);
 void handle_stack(vector<vector<int>> &values, int &gate);
 
@@ -84,7 +82,8 @@ vector<vector<int>> build_table(int gate,int p,int q){
 }
 
 void table_displayer(vector<vector<int>> &truth_table){
-    cout << "P \tQ \tP0Q" << endl;
+    cout << "\nP \tQ \tP0Q" << endl;
+    cout << "******************" << endl;
 
 
     for(int i = 0;i < 4;i++){
@@ -94,6 +93,7 @@ void table_displayer(vector<vector<int>> &truth_table){
 
     }
 }
+
 vector<int> parser(vector<string> &conds){
     vector<int> ret;
     /* vector<int> gates; */
@@ -106,58 +106,54 @@ vector<int> parser(vector<string> &conds){
     bool not_before_paren = false;
 
     for(int i = 0; i < conds.size();i++){
-        /* first we will check for NOTs before paren */
+        /* first check for NOTs before paren */
         if(conds[i] == "not" && conds[i+1] == "("){
             not_before_paren = true;
-            cout << "found a distributive not" << endl;
         }
         /* first get conditional statements with their values eg:1/0 */
         if(conds[i] == "p" || conds[i] == "q"){
             ret.push_back(1);
-            cout << "found : " << conds[i] << endl;
-
-            /* note: */ 
-            /*     since "not(not p)" returns 1 and 1 is the default */ 
-            /*     value we input if we find p or q, then we don't */ 
-            /*     change anything in that case */
-
 
            /* if p or q have a not in front then flip their value */
-            if(conds[i-1] == "not" && not_before_paren == false){
+            if(conds[i-1] == "not"){
                 ret.at(ret.size() - 1) = 1 - ret.back();
             }
-            /* if there is distributive negation */
-            /*     eg. not(p and q) */
-            if(conds[i-1] != "not" && not_before_paren){
-                ret.at(ret.size() - 1) = 1 - ret.back();
-            }
-        }
-        if(conds[i] == ")"){
-            not_before_paren = false;
-        }
-        /* latest modification */
-        /* gate implementation */
 
-        /* add table to stack */
+        }
+
+        /* add gate to stack */
         if(conds[i] == "and"){gates.push_back(1);}
         if(conds[i] == "or"){gates.push_back(2);}
         /* need to clean this up to be more dynamic^^ */ 
 
         if(gates.size() > 0 && ret.size() == 2){
-            /* first we build the standard table with */ 
-            /*     p q and the output */
-          truth_table = build_table(gates.back(),ret[0],ret[1]);  
-          ret.clear();
+         truth_table = build_table(gates.back(),ret[0],ret[1]);  
+         ret.clear();
 
-          table_displayer(truth_table);
-          values.push_back(truth_table[2]);
-          truth_table.clear();
+        /* flip values of the output if there's a not before paren */
+        if(not_before_paren){
+            for(int i = 0;i < 4;i++){
+                truth_table[2][i] = 1 - truth_table[2][i];
+            }
+        }
 
-        
+        if(truth_table[2].size() == 4){
+            /* cout << "values pushed" << endl; */
+        table_displayer(truth_table);
+        values.push_back(truth_table[2]);
+        truth_table.clear();
+        }
+    }
+
+
+        if(conds[i] == ")"){
+            /* cout << "paren back to none" << endl; */
+            not_before_paren = false;
         }
 
     }  
     if(values.size() == 2){
+        /* second to last gate assuming there's only 3 gates */ 
             cout << "gate: " << gates[gates.size() - 2]<< endl;
             handle_stack(values, gates[gates.size() - 2]);
         }
@@ -167,14 +163,9 @@ vector<int> parser(vector<string> &conds){
 
 /* rebuild the truth table to handle multiple conditional statements */
 void handle_stack(vector<vector<int>> &values, int &gate){
-    vector<vector<int>> ret;
-    cout << "final " << endl;
-
+    cout << "******** final ********"  << endl;
     for(int x = 0; x < 4;x++){
        cout << logic_gate(gate,values[0][x],values[1][x]) << endl;;
     }
-    /* for(auto i = ret.begin(); i != ret.end();++i){ */
-    /*     cout << *i << endl; */
-    /* } */ 
 }
 
