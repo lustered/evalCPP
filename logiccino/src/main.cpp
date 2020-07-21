@@ -1,12 +1,13 @@
 using namespace std;
 #include <Arduino.h>
+#include <iostream>
 #include <Blynk.h>
-
 #define BLYNK_PRINT Serial
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
-//protos
-int logic_gate(int,int,int);
+//libraries needed for conditional statement parser
+//prototypes for parser
+int logic_gate(int gate,int a,int b);
 
 // hotspot credential setup
 char auth[] = "BBKE4i5rjIHcYOZkEaU6zQYUacGz2fXq";
@@ -20,51 +21,6 @@ BlynkTimer timer;
 int gate_selected;
 int A_val;
 int B_val;
-
-//* BLYNK_WRITE(V5){ */
-/*      // if you type "Marco" into Terminal Widget - it will respond: "Polo:" */
-/*   if (String("Marco") == param.asStr()) { */
-/*     terminal.println("You said: 'Marco'") ; */
-/*     terminal.println("I said: 'Polo'") ; */
-/*   } else { */
-
-/*     // Send it back */
-/*     terminal.print("You said:"); */
-/*     terminal.write(param.getBuffer(), param.getLength()); */
-/*     terminal.println(); */
-/*   } */
-
-/*   // Ensure everything is sent */
-/*   terminal.flush(); */
-/* } */
-
-//terminal communication
-// planning: 
-// each buffer will have 3 parts
-// [first statement] [logic gate] [second statement]
-// statements can have gates within themselves:
-// ex: [not p and q] [and] [p or q]
-// statements can also have signs before them
-// ex: not[not p and not q] [and] not[p or not q]
-// 
-BLYNK_WRITE(V5){
-    int gates_terminal[]
-    statement = param.asStr();
-       
-  if (String("Marco") == param.asStr()) {
-    terminal.println("You said: 'Marco'") ;
-    terminal.println("I said: 'Polo'") ;
-  } else {
-
-    // Send it back
-    terminal.print("You said:");
-    terminal.write(param.getBuffer(), param.getLength());
-    terminal.println();
-  }
-
-  // Ensure everything is sent
-  terminal.flush();
-}
 
 //----------------------------------------------------------------------
 //get data from buttons 
@@ -122,11 +78,7 @@ void setup() {
   Serial.begin(9600);
   Blynk.begin(auth, ssid, pass);
 
-
   // terminal stuff
-  terminal.println(F("This is a logic gate calculator"));
-  terminal.println(F("Write down your statements"));
-  terminal.flush();
   // put your setup code here, to run once:
  // -------------------------------------------------
  // table clear on start
@@ -142,7 +94,7 @@ void loop() {
   Blynk.run();
   timer.run();
 }
-
+//***********************************************************************************************
 // logic gate calculation
 int logic_gate(int gate,int a,int b){
     int ret = 0;
@@ -180,7 +132,7 @@ int logic_gate(int gate,int a,int b){
                 ret = 1;
             }
             break;
-        case 5:
+        case 6:
             if (a != b){
                 ret = 1;
             }
@@ -190,5 +142,4 @@ int logic_gate(int gate,int a,int b){
 
         }
     return ret;
-                /* end of switch */
 }
